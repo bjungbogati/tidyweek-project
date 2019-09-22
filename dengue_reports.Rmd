@@ -1,0 +1,239 @@
+---
+title: "Dengue Report"
+author: "Binod Jung Bogati"
+date: "9/21/2019"
+output:
+  pdf_document:
+    toc: yes
+  html_document:
+    highlight: tango
+    keep_md: yes
+    theme: united
+    toc: yes
+    toc_float:
+      collapsed: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = FALSE,
+	message = FALSE,
+	warning = FALSE
+)
+```
+
+<br>
+<br>
+
+## Annual Dengue report cases in Nepal
+
+Nepal has been suffering from wide spread Dengue. We have presented a visualization of Dengue cases annual report from 2070 - 2076.
+
+```{r}
+library(tidyverse)
+library(readxl)
+```
+
+```{r}
+path <- "./data/dengue_np.xlsx"
+
+province_df <- path %>% 
+  excel_sheets() %>% 
+  set_names() %>% 
+  map_df(read_excel, 
+         path = path, 
+         .id = "Province")
+
+p_df <- province_df %>% 
+  pivot_longer(col = 3:9, 
+               names_to = "year", 
+               values_to = "cases")
+```
+
+## Highest dengue cases in year 2070
+
+```{r}
+highest_cases_2070 <- p_df %>%
+filter(year == 2070, cases != 0) %>% 
+select(-year) %>% 
+arrange(desc(cases))
+
+#plotting
+highest_cases_2070 %>% 
+  ggplot(aes(x = reorder(District, cases), y = cases, fill = Province)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Highest cases of dengue in 2070", 
+       x = "Districts", 
+       y = "No. of Cases") +
+  coord_flip() +
+  theme_minimal()
+
+
+```
+
+
+### Highest cases of dengue in 2070
+
+```{r}
+
+highest_cases_2070 %>% view()
+
+#plotting
+highest_cases_2070 %>% 
+  ggplot(aes(x = reorder(District, cases), y = cases, fill = Province)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Highest cases of dengue in 2070", 
+       x = "Districts", 
+       y = "No. of Cases") +
+  coord_flip() +
+  theme_minimal()
+```
+
+
+## Highest cases of dengue in 2070 by Province
+
+```{r}
+highest_cases_2070 %>% 
+  group_by(Province) %>% 
+  summarise(dengue_cases = sum(cases)) %>% 
+  ggplot(aes(x = reorder(Province, dengue_cases), y = dengue_cases, 
+             fill = Province)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Highest cases of dengue in 2070", 
+       x = "Districts", 
+       y = "No. of Cases") +
+  coord_flip() +
+  theme_minimal()
+```
+
+###  Province 1
+
+
+```{r}
+
+p_df %>% 
+  filter(Province == "Province 1", 
+         cases != 0, year == 2075) %>% 
+  group_by(District) %>% 
+  summarise(dengue_cases = sum(cases)) %>% 
+  ggplot(aes(x = reorder(District, dengue_cases), y = dengue_cases, 
+             fill = District)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Highest cases of dengue in 2075", 
+       x = "Districts", 
+       y = "No. of Cases") +
+  coord_flip() +
+  theme_minimal() 
+  
+
+```
+
+
+### Province 2
+
+```{r}
+p_df %>% 
+  filter(Province == "Province 2", 
+         cases != 0, year == 2075) %>% 
+  group_by(District) %>% 
+  summarise(dengue_cases = sum(cases)) %>% 
+  ggplot(aes(x = reorder(District, dengue_cases), y = dengue_cases, 
+             fill = District)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Highest cases of dengue in 2075", 
+       x = "Districts", 
+       y = "No. of Cases") +
+  coord_flip() +
+  theme_minimal()
+```
+
+### Province 3
+
+```{r}
+p_df %>% 
+  filter(Province == "Province 3", 
+         cases != 0, year == 2075) %>% 
+  group_by(District) %>% 
+  summarise(dengue_cases = sum(cases)) %>% 
+  ggplot(aes(x = reorder(District, dengue_cases), y = dengue_cases, 
+             fill = District)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Highest cases of dengue in 2075", 
+       x = "Districts", 
+       y = "No. of Cases") +
+  coord_flip() +
+  theme_minimal()
+```
+
+### Province 4
+
+```{r}
+p_df %>% 
+  filter(Province == "Province 4", 
+         cases != 0, year == 2075) %>% 
+  group_by(District) %>% 
+  summarise(dengue_cases = sum(cases)) %>% 
+  ggplot(aes(x = reorder(District, dengue_cases), y = dengue_cases, 
+             fill = District)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Highest cases of dengue in 2075", 
+       x = "Districts", 
+       y = "No. of Cases") +
+  coord_flip() +
+  theme_minimal()
+```
+
+### Province 5
+
+```{r}
+p_df %>% 
+  filter(Province == "Province 5", 
+         cases != 0, year == 2075) %>% 
+  group_by(District) %>% 
+  summarise(dengue_cases = sum(cases)) %>% 
+  ggplot(aes(x = reorder(District, dengue_cases), y = dengue_cases, 
+             fill = District)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Highest cases of dengue in 2075", 
+       x = "Districts", 
+       y = "No. of Cases") +
+  coord_flip() +
+  theme_minimal()
+```
+
+
+### Province 6
+
+```{r}
+p_df %>% 
+  filter(Province == "Province 6", 
+         cases != 0, year == 2075) %>% 
+  group_by(District) %>% 
+  summarise(dengue_cases = sum(cases)) %>% 
+  ggplot(aes(x = reorder(District, dengue_cases), y = dengue_cases, 
+             fill = District)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Highest cases of dengue in 2075", 
+       x = "Districts", 
+       y = "No. of Cases") +
+  coord_flip() +
+  theme_minimal()
+```
+
+### Province 7
+
+```{r}
+p_df %>% 
+  filter(Province == "Province 7", 
+         cases != 0, year == 2075) %>% 
+  group_by(District) %>% 
+  summarise(dengue_cases = sum(cases)) %>% 
+  ggplot(aes(x = reorder(District, dengue_cases), y = dengue_cases, 
+             fill = District)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Highest cases of dengue in 2075", 
+       x = "Districts", 
+       y = "No. of Cases") +
+  coord_flip() +
+  theme_minimal()
+```

@@ -1,0 +1,67 @@
+---
+title: "Dengue Report"
+author: "Binod Jung Bogati"
+date: "9/22/2019"
+output:
+  html_document:
+    highlight: tango
+    theme: united
+    toc: yes
+    toc_float:
+      collapsed: yes
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = FALSE,
+	message = FALSE,
+	warning = FALSE
+)
+```
+
+## Loading codes
+
+```{r}
+library(tidyverse)
+library(readxl)
+```
+
+
+```{r}
+path <- "./data/dengue_np.xlsx"
+
+province_df <- path %>% 
+  excel_sheets() %>% 
+  set_names() %>% 
+  map_df(read_excel, 
+         path = path, 
+         .id = "Province")
+
+p_df <- province_df %>% 
+  pivot_longer(col = 3:9, 
+               names_to = "year", 
+               values_to = "cases")
+```
+
+# Highest dengue cases in year 2070
+
+
+```{r}
+highest_cases_2070 <- p_df %>%
+filter(year == 2070, cases != 0) %>% 
+select(-year) %>% 
+arrange(desc(cases))
+
+#plotting
+highest_cases_2070 %>% 
+  ggplot(aes(x = reorder(District, cases), y = cases, fill = Province)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Highest cases of dengue in 2070", 
+       x = "Districts", 
+       y = "No. of Cases") +
+  coord_flip() +
+  theme_minimal()
+
+
+```
